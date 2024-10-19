@@ -28,6 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+      우왕좌왕 가족 코딩단 프론트서버
         {children}
       </body>
     </html>
