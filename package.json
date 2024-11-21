@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/eslint-plugin-next": "^15.0.3",
     "next": "14.2.15",
     "react": "^18",
     "react-dom": "^18"
@@ -24,7 +25,6 @@
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
     "globals": "^15.11.0",
-    "postcss": "^8",
     "typescript": "^5",
     "typescript-eslint": "^8.11.0"
   }
