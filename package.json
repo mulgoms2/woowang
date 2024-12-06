@@ -9,9 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/eslint-plugin-next": "^15.0.3",
     "@eslint/eslintrc": "^3.2.0",
+    "@next/eslint-plugin-next": "^15.0.3",
     "next": "14.2.15",
+    "prettier": "^3.4.2",
     "react": "^18",
     "react-dom": "^18"
   },
