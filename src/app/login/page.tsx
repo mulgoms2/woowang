@@ -2,6 +2,8 @@
 import React, { useReducer } from 'react';
 import Link from 'next/link';
 
+import { fetchLogin } from '@/apis/login/loginService';
+
 interface UserInfo {
   id: string;
   password: string;
@@ -22,7 +24,7 @@ const Page = () => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(id, password);
+    fetchLogin(state);
   };
 
   return (
