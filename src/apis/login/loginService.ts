@@ -1,9 +1,7 @@
 import { axiosInstance } from '@/apis/api';
+import { UserInfo } from '@/types/types';
 
-interface LoginRequest {
-  id: string;
-  password: string;
-}
+type LoginRequest = UserInfo;
 
 export const fetchLogin = async (loginRequest: LoginRequest) => {
   try {
