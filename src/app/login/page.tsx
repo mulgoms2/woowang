@@ -3,11 +3,7 @@ import React, { useReducer } from 'react';
 import Link from 'next/link';
 
 import { fetchLogin } from '@/apis/login/loginService';
-
-interface UserInfo {
-  id: string;
-  password: string;
-}
+import { UserInfo } from '@/types/types';
 
 const inputReducer = (state: UserInfo, action: HTMLInputElement) => ({
   ...state,
@@ -15,9 +11,12 @@ const inputReducer = (state: UserInfo, action: HTMLInputElement) => ({
 });
 
 const Page = () => {
-  const [state, dispatch] = useReducer(inputReducer, { id: '', password: '' });
+  const [state, dispatch] = useReducer(inputReducer, {
+    email: '',
+    password: '',
+  });
 
-  const { id, password }: UserInfo = state;
+  const { email, password }: UserInfo = state;
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     dispatch(e.target);
@@ -33,11 +32,11 @@ const Page = () => {
       <div>
         <form onSubmit={onSubmit}>
           <input
-            name={'id'}
+            name={'email'}
             onChange={onInputChange}
             type="text"
-            placeholder="id"
-            value={id}
+            placeholder="email"
+            value={email}
             required
           />
           <input
