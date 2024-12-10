@@ -1,37 +1,24 @@
-import nextPlugin from '@next/eslint-plugin-next';
-import reactPlugin from 'eslint-plugin-react';
-import hooksPlugin from 'eslint-plugin-react-hooks';
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import js from "@eslint/js";
+import { FlatCompat } from "@eslint/eslintrc";
 
-export default [
-  {
-    plugins: {
-      react: reactPlugin,
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const compat = new FlatCompat({
+    baseDirectory: __dirname,
+    recommendedConfig: js.configs.recommended,
+    allConfig: js.configs.all
+});
+
+const configs =  [
+    ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
+    {
+        rules: {
+            "react-hooks/rules-of-hooks": "error",
+            "react-hooks/exhaustive-deps": "warn",
+        },
     },
-    rules: {
-      ...reactPlugin.configs['jsx-runtime'].rules,
-    },
-    settings: {
-      react: {
-        version: 'detect', // You can add this if you get a warning about the React version when you lint
-      },
-    },
-  },
-  {
-    plugins: {
-      'react-hooks': hooksPlugin,
-    },
-    rules: hooksPlugin.configs.recommended.rules,
-  },
-  {
-    plugins: {
-      '@next/next': nextPlugin,
-    },
-    rules: {
-      ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs['core-web-vitals'].rules,
-    },
-  },
-  {
-    ignores: ['.next/*'],
-  },
 ];
+
+export default configs;
