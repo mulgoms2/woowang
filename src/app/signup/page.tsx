@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useInputValues } from '@/app/hooks/useInputValues';
+import { useInputValues } from '@/hooks/useInputValues';
 import { UserInfo } from '@/types/types';
 import { checkUserEmailDuplicate } from '@/apis/auth/userService';
 

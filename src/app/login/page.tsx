@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { fetchLogin } from '@/apis/auth/userService';
 import { UserInfo } from '@/types/types';
-import { useInputValues } from '@/app/hooks/useInputValues';
+import { useInputValues } from '@/hooks/useInputValues';
 
 const Page = () => {
   const [state, onInputChange] = useInputValues<UserInfo>({
