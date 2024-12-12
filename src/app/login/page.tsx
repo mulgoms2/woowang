@@ -1,25 +1,18 @@
 'use client';
-import React, { useReducer } from 'react';
+import React from 'react';
 import Link from 'next/link';
 
-import { fetchLogin } from '@/apis/login/loginService';
+import { fetchLogin } from '@/apis/auth/userService';
 import { UserInfo } from '@/types/types';
-
-const inputReducer = (state: UserInfo, action: HTMLInputElement) => ({
-  ...state,
-  [action.name]: action.value,
-});
+import { useInputValues } from '@/app/hooks/useInputValues';
 
 const Page = () => {
-  const [state, dispatch] = useReducer(inputReducer, {
+  const [state, onInputChange] = useInputValues<UserInfo>({
     email: '',
     password: '',
   });
 
   const { email, password }: UserInfo = state;
-
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    dispatch(e.target);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

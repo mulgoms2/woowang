@@ -11,3 +11,11 @@ export const fetchLogin = async (loginRequest: LoginRequest) => {
     console.log(error);
   }
 };
+
+export const joinUser = async (userInfo: UserInfo) => {};
+
+export const checkUserEmailDuplicate = async (email: string) => {
+  const res = await axiosInstance.post('/user/valid', email);
+
+  return res;
+};
