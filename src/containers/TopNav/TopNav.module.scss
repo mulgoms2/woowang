@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+
+  background-color: #F8EEE1;
+  padding: 30px;
+  justify-content: space-between;
+
+  .menuBtnContainer {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    text-decoration: none;
+    color: black;
+
+    &:hover {
+      color: #E65A41;
+    }
+  }
+}

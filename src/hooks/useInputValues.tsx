@@ -5,9 +5,9 @@ type Action = {
   value: string;
 };
 
-type InitState = Record<string, string>;
-
-export const useInputValues = <T extends InitState>(initState: T) => {
+export const useInputValues = <T extends Record<string, string>>(
+  initState: T,
+) => {
   const [state, dispatch] = useReducer(
     (state: T, action: Action): T => ({
       ...state,
