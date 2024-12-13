@@ -2,16 +2,16 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+import s from '@/containers/TopNav/TopNav.module.scss';
 import love from '@/public/icon/love.png';
 import user_profile from '@/public/icon/user_profile.png';
-import s from '@/containers/TopNav/TopNav.module.scss';
 import { NavLink } from '@/types/types';
 
 const TopNav = () => {
   const navLinks: NavLink[] = [
     { name: 'Home', href: '/' },
     { name: 'Login', href: '/login' },
-    // { name: 'about', href: '/about' },
+    { name: 'remote', href: '/remote' },
   ];
 
   return (
@@ -26,9 +26,9 @@ const TopNav = () => {
           </Link>
         ))}
       </div>
-      <div>
-        <Image src={user_profile} alt="user_image" />
+      <div className={s.login}>
         <Link href={'/login'} className={s.btn}>
+          <Image src={user_profile} alt="user_image" />
           Log in
         </Link>
       </div>
