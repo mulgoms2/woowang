@@ -46,7 +46,7 @@ const Page = () => {
         autoPlay
         playsInline // 모바일에서 전체 화면으로 전환되지 않도록
         style={{ width: '100%', height: 'auto' }}
-      ></video>
+      />
     </div>
   );
 };
