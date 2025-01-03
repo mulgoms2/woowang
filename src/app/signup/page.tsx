@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useInputValues } from '@/hooks/useInputValues';
-import { UserInfo } from '@/types/types';
+import { ApiError, UserInfo } from '@/types/types';
 import { checkUserEmailDuplicate } from '@/apis/auth/userService';
 
 const Page = () => {
@@ -13,8 +13,14 @@ const Page = () => {
 
   const { email, password }: UserInfo = state;
 
-  const onEmailValid = () => {
-    checkUserEmailDuplicate(email);
+  const onEmailValid = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { state } = await checkUserEmailDuplicate(email);
+    } catch (error) {
+      const { state } = error as ApiError;
+    }
   };
 
   return (

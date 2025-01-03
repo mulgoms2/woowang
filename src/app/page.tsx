@@ -1,3 +1,16 @@
+'use client';
+
+import { fetchTest } from '@/apis/test/test';
+
 export default function Home() {
-  return <div>home</div>;
+  const onTest = () => {
+    fetchTest();
+  };
+
+  return (
+    <div>
+      home
+      <button onClick={onTest}>test</button>
+    </div>
+  );
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './global.scss';
 
 import TopNav from '@/containers/TopNav/TopNav';
+import { StoreProvider } from '@/app/StoreProvider';
 
 export const metadata: Metadata = {
   title: 'Moon',
@@ -14,11 +15,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
-        <TopNav />
-        <div>{children}</div>
-      </body>
-    </html>
+    <StoreProvider>
+      <html lang="en">
+        <body>
+          <TopNav />
+          <div>{children}</div>
+        </body>
+      </html>
+    </StoreProvider>
   );
 }

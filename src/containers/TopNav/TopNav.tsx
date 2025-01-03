@@ -4,14 +4,15 @@ import Image from 'next/image';
 
 import s from '@/containers/TopNav/TopNav.module.scss';
 import love from '@/public/icon/love.png';
-import user_profile from '@/public/icon/user_profile.png';
 import { NavLink } from '@/types/types';
+import LoginButton from '@/containers/Login/LoginButton';
 
 const TopNav = () => {
   const navLinks: NavLink[] = [
     { name: 'Home', href: '/' },
     { name: 'Login', href: '/login' },
     { name: 'remote', href: '/remote' },
+    { name: 'board', href: '/board' },
   ];
 
   return (
@@ -27,10 +28,7 @@ const TopNav = () => {
         ))}
       </div>
       <div className={s.login}>
-        <Link href={'/login'} className={s.btn}>
-          <Image src={user_profile} alt="user_image" />
-          Log in
-        </Link>
+        <LoginButton />
       </div>
     </header>
   );

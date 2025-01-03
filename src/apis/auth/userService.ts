@@ -1,21 +1,26 @@
-import { axiosInstance } from '@/apis/api';
+import { axiosInstance, withErrorHandling } from '@/apis/api';
 import { UserInfo } from '@/types/types';
 
 type LoginRequest = UserInfo;
 
-export const fetchLogin = async (loginRequest: LoginRequest) => {
-  try {
+export const fetchLogin = withErrorHandling(
+  async (loginRequest: LoginRequest) => {
     const res = await axiosInstance.post('/login', loginRequest);
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
+
+    return res?.data;
+  },
+);
 
 export const joinUser = async (userInfo: UserInfo) => {};
 
-export const checkUserEmailDuplicate = async (email: string) => {
-  const res = await axiosInstance.post('/user/valid', email);
+export const checkUserEmailDuplicate = withErrorHandling(
+  async (email: string) => {
+    const res = await axiosInstance.get('/user/valid', {
+      params: {
+        email,
+      },
+    });
 
-  return res;
-};
+    return res?.data;
+  },
+);

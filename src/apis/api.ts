@@ -1,10 +1,12 @@
 import axios from 'axios';
+import { ApiError } from '@/types/types';
 
 const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json', // 커스텀 헤더 사용
   },
   baseURL: process.env.NEXT_PUBLIC_API_URL,
+  // withCredentials: true, // 쿠키를 요청에 포함. 교차출처 요청에 대해 cors 기본정책은 쿠키를 전달하지 않도록 되어있다.
 });
 
 axiosInstance.interceptors.request.use(
@@ -22,4 +24,51 @@ axiosInstance.interceptors.request.use(
   },
 );
 
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    // 401 에러 발생 시 토큰 갱신
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      console.log('여기 무한도나');
+      originalRequest._retry = true;
+      // 쿠키에 리프레시 토큰을 담아 요청 전달
+      const { data } = await axiosInstance.post('/auth/refresh', null, {
+        withCredentials: true,
+      });
+
+      console.log('리프레시 요청후 받은 토큰 ', data);
+      const accessToken = data?.accessToken;
+
+      originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+
+      return axiosInstance(originalRequest);
+    }
+    return Promise.reject(error);
+  },
+);
+
 export { axiosInstance };
+
+export const withErrorHandling =
+  <T extends (...args: any[]) => Promise<any>>(func: T) =>
+  async (...arg: Parameters<T>): Promise<any> => {
+    try {
+      return await func(...arg);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const name = error?.name ?? 'Unexpected Error';
+        const status = error?.response?.status ?? 500;
+        const message = error.response?.data?.message ?? 'Axios error occurred';
+
+        throw { status, message, name };
+      }
+      const unknownError: ApiError = {
+        name: 'Unknown Error',
+        status: 500,
+        message: 'unknown error',
+      };
+      throw unknownError;
+    }
+  };
