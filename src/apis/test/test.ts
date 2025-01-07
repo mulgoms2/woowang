@@ -1,7 +1,11 @@
 import { axiosInstance } from '@/apis/api';
 
 export const fetchTest = async () => {
-  const res = await axiosInstance.get('/test');
+  try {
+    const res = await axiosInstance.get('/test');
 
-  return res.data;
+    return res.data;
+  } catch (e) {
+    console.log('여기서 끝나야지');
+  }
 };

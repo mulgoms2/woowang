@@ -6,8 +6,29 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json', // 커스텀 헤더 사용
   },
   baseURL: process.env.NEXT_PUBLIC_API_URL,
-  // withCredentials: true, // 쿠키를 요청에 포함. 교차출처 요청에 대해 cors 기본정책은 쿠키를 전달하지 않도록 되어있다.
+  withCredentials: true, // 쿠키를 요청에 포함 및 전달받은 쿠키를 저장하는 설정. 교차출처 요청에 대해 cors 기본정책은 쿠키를 무시하도록 되어있다.
 });
+
+const axiosAuth = axios.create({
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  withCredentials: true,
+});
+
+axiosAuth.interceptors.response.use(
+  (res) => res,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      alert('로그인이 만료되었습니다. 로그인 후 다시 시도해주세요');
+      window.location.replace('/login');
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -27,24 +48,18 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest = error.config;
+    if (error.response?.status === 401) {
+      const { data } = await axiosAuth.get('/auth/refresh');
 
-    // 401 에러 발생 시 토큰 갱신
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      console.log('여기 무한도나');
-      originalRequest._retry = true;
-      // 쿠키에 리프레시 토큰을 담아 요청 전달
-      const { data } = await axiosInstance.post('/auth/refresh', null, {
-        withCredentials: true,
-      });
-
-      console.log('리프레시 요청후 받은 토큰 ', data);
+      // 예외 발생시 시도되지 않음
       const accessToken = data?.accessToken;
+      localStorage.setItem('token', accessToken);
 
-      originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-
-      return axiosInstance(originalRequest);
+      // 새로운 액세스 토큰으로 동일 요청 재시도
+      return axiosInstance(error.config);
     }
+
+    // 401 을 제외한 에러는 그대로 통과
     return Promise.reject(error);
   },
 );
