@@ -43,6 +43,7 @@ const Page = () => {
 
     try {
       await joinUser(userInfo);
+
       alert('회원가입에 성공했습니다. 로그인 해주세요.');
       router.push('/login');
     } catch (error) {

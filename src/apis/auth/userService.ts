@@ -3,28 +3,43 @@ import { UserInfo } from '@/types/types';
 
 type LoginRequest = UserInfo;
 
+interface UserJoinResponse {
+  email: string;
+  name: string;
+}
+
+interface LoginResponse {
+  accessToken: string;
+}
+
 export const fetchLogin = withErrorHandling(
   async (loginRequest: LoginRequest) => {
-    const res = await axiosInstance.post('/login', loginRequest);
+    const { data } = await axiosInstance.post<LoginResponse>(
+      '/login',
+      loginRequest,
+    );
 
-    return res?.data;
+    return data;
   },
 );
 
 export const joinUser = withErrorHandling(async (userInfo: UserInfo) => {
-  const { data } = axiosInstance.post('/users', userInfo);
+  const { data } = await axiosInstance.post<UserJoinResponse>(
+    '/users',
+    userInfo,
+  );
 
   return data;
 });
 
 export const checkUserEmailDuplicate = withErrorHandling(
   async (email: string) => {
-    const res = await axiosInstance.get('/user/valid', {
+    const { data } = await axiosInstance.get<string>('/user/valid', {
       params: {
         email,
       },
     });
 
-    return res?.data;
+    return data;
   },
 );

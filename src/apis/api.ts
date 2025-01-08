@@ -65,7 +65,7 @@ axiosInstance.interceptors.response.use(
 
 export { axiosInstance };
 
-type FetchApiFunction<T> = (...args: T[]) => Promise<unknown>;
+type FetchApiFunction<Arg, Result> = (...args: Arg[]) => Promise<Result>;
 
 interface CommonError {
   error: string;
@@ -81,8 +81,8 @@ const getErrorInfo = (error: AxiosError) => {
 };
 
 export const withErrorHandling =
-  <T>(func: FetchApiFunction<T>): FetchApiFunction<T> =>
-  async (...args) => {
+  <T, R>(func: FetchApiFunction<T, R>): FetchApiFunction<T, R> =>
+  async (...args): Promise<R> => {
     try {
       return await func(...args);
     } catch (error) {
