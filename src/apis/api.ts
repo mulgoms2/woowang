@@ -65,7 +65,7 @@ axiosInstance.interceptors.response.use(
 
 export { axiosInstance };
 
-type FetchApiFunction<T> = (...args: T[]) => Promise<T>;
+type FetchApiFunction<T> = (...args: T[]) => Promise<unknown>;
 
 interface CommonError {
   error: string;
