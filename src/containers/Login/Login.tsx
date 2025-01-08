@@ -20,7 +20,9 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const { accessToken } = await fetchLogin({ email, password });
+      const { accessToken } = (await fetchLogin({ email, password })) as {
+        accessToken: string;
+      };
 
       if (accessToken) {
         setToken(accessToken);
