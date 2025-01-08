@@ -1,11 +1,7 @@
-import { axiosInstance } from '@/apis/api';
+import { axiosInstance, withErrorHandling } from '@/apis/api';
 
-export const fetchTest = async () => {
-  try {
-    const res = await axiosInstance.get('/test');
+export const fetchTest = withErrorHandling(async () => {
+  const res = await axiosInstance.get('/test');
 
-    return res.data;
-  } catch (e) {
-    console.log('여기서 끝나야지');
-  }
-};
+  return res.data;
+});

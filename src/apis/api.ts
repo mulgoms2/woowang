@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { ApiError } from '@/types/types';
+import axios, { AxiosError } from 'axios';
 
 const axiosInstance = axios.create({
   headers: {
@@ -66,24 +65,34 @@ axiosInstance.interceptors.response.use(
 
 export { axiosInstance };
 
+type FetchApiFunction<T> = (...args: T[]) => Promise<T>;
+
+interface CommonError {
+  error: string;
+  message: string;
+}
+
+const getErrorInfo = (error: AxiosError) => {
+  const name = error?.name ?? 'Unexpected Error';
+  const status = error?.response?.status ?? 500;
+  const { message } = error.response?.data as CommonError;
+
+  return { status, message, name };
+};
+
 export const withErrorHandling =
-  <T extends (...args: any[]) => Promise<any>>(func: T) =>
-  async (...arg: Parameters<T>): Promise<any> => {
+  <T>(func: FetchApiFunction<T>): FetchApiFunction<T> =>
+  async (...args) => {
     try {
-      return await func(...arg);
+      return await func(...args);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const name = error?.name ?? 'Unexpected Error';
-        const status = error?.response?.status ?? 500;
-        const message = error.response?.data?.message ?? 'Axios error occurred';
-
-        throw { status, message, name };
+        throw getErrorInfo(error);
       }
-      const unknownError: ApiError = {
+      throw {
         name: 'Unknown Error',
         status: 500,
         message: 'unknown error',
       };
-      throw unknownError;
     }
   };

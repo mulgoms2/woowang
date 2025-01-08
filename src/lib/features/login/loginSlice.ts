@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '@/lib/store';
 
 export const loginSlice = createSlice({
   name: 'login',
@@ -12,7 +13,7 @@ export const loginSlice = createSlice({
   },
 });
 
-export const selectIsLogin = (state) => state.login.isLogin;
+export const selectIsLogin = (state: RootState) => state.login.isLogin;
 
 export const { setIsLogin } = loginSlice.actions;
 

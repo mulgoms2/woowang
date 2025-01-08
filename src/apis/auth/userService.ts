@@ -11,7 +11,7 @@ export const fetchLogin = withErrorHandling(
   },
 );
 
-export const joinUser = async (userInfo: UserInfo) => {};
+// export const joinUser = async (userInfo: UserInfo) => {};
 
 export const checkUserEmailDuplicate = withErrorHandling(
   async (email: string) => {
