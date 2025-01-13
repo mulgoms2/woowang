@@ -48,6 +48,11 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
+      const isLogin = localStorage.getItem('token');
+      if (!isLogin) {
+        return Promise.reject(error);
+      }
+
       const { data } = await axiosAuth.get('/auth/refresh');
 
       // 예외 발생시 시도되지 않음
