@@ -13,11 +13,13 @@ const Page = () => {
     name: '',
     email: '',
     password: '',
+    role: '',
   });
 
   const [isValid, setIsValid] = useState(false);
 
-  const { email, password, name }: UserInfo = userInfo;
+  const { email, password, name, role }: UserInfo = userInfo;
+  console.log(role);
 
   const onEmailValid = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -88,6 +90,10 @@ const Page = () => {
               onChange={onInputChange}
               required
             />
+            <select value={role} name={'role'} onChange={onInputChange}>
+              <option value="USER">정비사</option>
+              <option value="ADMIN">테크니컬서포터</option>
+            </select>
             <button onClick={onJoin} disabled={!isValid}>
               회원가입
             </button>

@@ -16,7 +16,9 @@ export const useInputValues = <T extends Record<string, string>>(
     initState,
   );
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     dispatch({
       name: e.target.name, // name은 UserInfo의 keyof 타입으로 변환
       value: e.target.value,
