@@ -13,6 +13,7 @@ const TopNav = () => {
     { name: 'Login', href: '/login' },
     { name: 'remote', href: '/remote' },
     { name: 'board', href: '/board' },
+    { name: 'chat', href: '/chat' },
   ];
 
   return (
