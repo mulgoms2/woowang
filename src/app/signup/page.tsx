@@ -13,13 +13,12 @@ const Page = () => {
     name: '',
     email: '',
     password: '',
-    role: '',
+    role: 'USER',
   });
 
   const [isValid, setIsValid] = useState(false);
 
   const { email, password, name, role }: UserInfo = userInfo;
-  console.log(role);
 
   const onEmailValid = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
